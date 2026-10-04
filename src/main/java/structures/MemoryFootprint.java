@@ -4,6 +4,8 @@ import org.openjdk.jol.info.GraphLayout;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Locale;
+
 
 public class MemoryFootprint {
 
@@ -25,7 +27,7 @@ public class MemoryFootprint {
     private static void measure(String name, Object structure, int n, FileWriter writer) throws IOException {
         long bytes = GraphLayout.parseInstance(structure).totalSize();
         double mb = bytes / (1024.0 * 1024.0);
-        writer.write(String.format("%s,%d,%d,%.4f%n", name, n, bytes, mb));
+        writer.write(String.format(Locale.US, "%s,%d,%d,%.4f%n", name, n, bytes, mb));
         System.out.printf("%s | n=%d | %d bytes (%.4f MB)%n", name, n, bytes, mb);
     }
 

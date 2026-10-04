@@ -3,6 +3,7 @@ package structures;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Random;
 
 public class Benchmark {
@@ -26,7 +27,6 @@ public class Benchmark {
         System.out.println("Done. Results written to results/results.csv");
     }
 
-
     private static void runW1RandomAccess(int n, FileWriter writer) throws IOException {
         for (String structureName : new String[]{"DynamicArray", "MyLinkedList"}) {
             Result r = measure(TOTAL_RUNS, () -> {
@@ -46,6 +46,7 @@ public class Benchmark {
         }
     }
 
+    // ---------- W2: Search ----------
 
     private static void runW2Search(int n, FileWriter writer) throws IOException {
         for (String structureName : new String[]{"DynamicArray", "MyLinkedList"}) {
@@ -69,7 +70,6 @@ public class Benchmark {
             writeRow(writer, "W2", "-", structureName, n, r);
         }
     }
-
 
     private static void runW3InsertRemove(int n, String variant, FileWriter writer) throws IOException {
         int fixedIndex = "head".equals(variant) ? 0 : n / 2;
@@ -95,7 +95,6 @@ public class Benchmark {
         }
     }
 
-
     private static void runW4PriorityProcessing(int n, FileWriter writer) throws IOException {
         Result r = measure(TOTAL_RUNS, () -> {
             MinHeap heap = new MinHeap();
@@ -118,7 +117,6 @@ public class Benchmark {
         });
         writeRow(writer, "W4", "-", "MinHeap", n, r);
     }
-
 
     private interface MeasuredRun {
         Metrics run();
@@ -154,7 +152,7 @@ public class Benchmark {
     }
 
     private static void writeRow(FileWriter writer, String workload, String variant, String structure, int n, Result r) throws IOException {
-        writer.write(String.format("%s,%s,%s,%d,%.3f,%d,%d,%d%n",
+        writer.write(String.format(Locale.US, "%s,%s,%s,%d,%.3f,%d,%d,%d%n",
                 workload, variant, structure, n, r.medianTimeMs(), r.medianSteps(), r.medianMoves(), r.medianComparisons()));
         System.out.printf("%s | %s | %s | n=%d | %s%n", workload, variant, structure, n, r);
     }

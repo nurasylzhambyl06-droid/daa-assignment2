@@ -3,7 +3,9 @@ package structures;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Random;
+
 
 public class BuildHeapComparison {
 
@@ -18,7 +20,6 @@ public class BuildHeapComparison {
             for (int n : SIZES) {
                 int[] data = randomArray(n, SEED);
 
-                // Method 1: n separate insert() calls — O(n log n)
                 runCase("insert_n_times", n, data, writer, () -> {
                     MinHeap heap = new MinHeap();
                     Metrics m = heap.getMetrics();
@@ -63,7 +64,7 @@ public class BuildHeapComparison {
         long medianComparisons = medianLong(Arrays.copyOfRange(comparisons, 1, TOTAL_RUNS));
         long medianMoves = medianLong(Arrays.copyOfRange(moves, 1, TOTAL_RUNS));
 
-        writer.write(String.format("%s,%d,%.3f,%d,%d%n", method, n, medianTime, medianComparisons, medianMoves));
+        writer.write(String.format(Locale.US, "%s,%d,%.3f,%d,%d%n", method, n, medianTime, medianComparisons, medianMoves));
         System.out.printf("%s | n=%d | time=%.3fms, comparisons=%d, moves=%d%n",
                 method, n, medianTime, medianComparisons, medianMoves);
     }
